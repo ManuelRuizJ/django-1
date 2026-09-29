@@ -22,7 +22,7 @@ class Cancion(models.Model):
     # El CSV mezcla "2019-06-14" con "2012"
     fecha_lanzamiento = models.CharField(max_length=10, blank=True)
     creada_en = models.DateTimeField(auto_now_add=True)
-    playlist = models.ManyToManyField(Playlist, related_name="canciones")
+    playlists = models.ManyToManyField(Playlist, related_name="canciones")
 
     class Meta:
         ordering = [ "-popularidad"]
