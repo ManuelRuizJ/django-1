@@ -8,6 +8,7 @@ from .models import Cancion
 
 def lista_canciones(request):
     q = request.GET.get("q", "").strip()
+    genero = request.GET.get("genero", "").strip()
 
     canciones = Cancion.objects.all()
 
@@ -17,6 +18,11 @@ def lista_canciones(request):
             Q(artista__icontains=q)
         )
 
+    if genero:
+            canciones = canciones.filter(
+                 playlists__genero=genero
+            )
+
     paginator = Paginator(canciones, 25)
     page_obj = paginator.get_page(request.GET.get("page"))
 
@@ -24,6 +30,7 @@ def lista_canciones(request):
         "page_obj": page_obj,
         "total": canciones.count(),
         "q": q,
+        "genero": genero,
     }
 
     return render(request, "catalogo/lista.html", contexto)

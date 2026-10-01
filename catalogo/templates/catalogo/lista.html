@@ -8,8 +8,16 @@
         value="{{ q }}"
         placeholder="Título o artista">
     <button type="submit">Buscar</button>
+
+    <input
+        type="text"
+        name="genero"
+        value="{{ genero }}"
+        placeholder="Género">
+    <button type="submit">Buscar</button>
 </form>
 <p>{{ total }} resultados.</p>
+
 <table>
     <tr>
         <th>Título</th>
@@ -32,6 +40,8 @@
     </tr>
     {% endfor %}
 </table>
+
+
 <p>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</p>
 {% if page_obj.has_previous %}
     <a href="?q={{ q|urlencode }}&page={{ page_obj.previous_page_number }}">Anterior</a>
