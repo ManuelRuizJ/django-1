@@ -1,3 +1,35 @@
-from django.shortcuts import render
+# catalogo/views.py (reemplaza el contenido completo del archivo)
+from django.db.models import Q
+from django.shortcuts import get_object_or_404, render
+from django.core.paginator import Paginator
 
-# Create your views here.
+from .models import Cancion
+
+
+def lista_canciones(request):
+    q = request.GET.get("q", "").strip()
+
+    canciones = Cancion.objects.all()
+
+    if q:
+        canciones = canciones.filter(
+            Q(titulo__icontains=q) |
+            Q(artista__icontains=q)
+        )
+
+    paginator = Paginator(canciones, 25)
+    page_obj = paginator.get_page(request.GET.get("page"))
+
+    contexto = {
+        "page_obj": page_obj,
+        "total": canciones.count(),
+        "q": q,
+    }
+
+    return render(request, "catalogo/lista.html", contexto)
+
+
+def detalle_cancion(request, pk):
+    cancion = get_object_or_404(Cancion, pk=pk)
+
+    return render(request, "catalogo/detalle.html", {"cancion": cancion})
