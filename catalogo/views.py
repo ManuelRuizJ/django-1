@@ -10,6 +10,7 @@ from .models import Cancion, Playlist
 def lista_canciones(request):
     q = request.GET.get("q", "").strip()
     genero = request.GET.get("genero", "").strip()
+    artista = request.GET.get("artista", "").strip()
 
     canciones = Cancion.objects.all().prefetch_related("playlists")
 
@@ -24,6 +25,9 @@ def lista_canciones(request):
                  playlists__genero=genero
             )
 
+    if artista:
+        canciones = canciones.filter(artista__iexact=artista)
+
     paginator = Paginator(canciones, 25)
     page_obj = paginator.get_page(request.GET.get("page"))
 
@@ -32,6 +36,7 @@ def lista_canciones(request):
         "total": canciones.count(),
         "q": q,
         "genero": genero,
+        "artista": artista
     }
 
     respuesta = render(request, "catalogo/lista.html", contexto)

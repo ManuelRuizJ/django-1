@@ -31,7 +31,7 @@
         <td>
             <a href="{% url 'catalogo:detalle' c.pk %}">{{ c.titulo }}</a>
         </td>
-        <td>{{ c.artista }}</td>
+        <td><a href="?artista={{ c.artista|urlencode }}">{{ c.artista }}</a></td>
         <td>{{ c.duracion }}</td>
         <td>{{ c.popularidad }}</td>
         <td>
@@ -52,10 +52,10 @@
 
 <p>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</p>
 {% if page_obj.has_previous %}
-    <a href="?q={{ q|urlencode }}&page={{ page_obj.previous_page_number }}">Anterior</a>
+    <a href="?q={{ q|urlencode }}&genero={{ genero|urlencode }}&artista={{ artista|urlencode }}&page={{ page_obj.previous_page_number }}">Anterior</a>
 {% endif %}
 {% if page_obj.has_previous and page_obj.has_next %} | {% endif %}
 {% if page_obj.has_next %}
-    <a href="?q={{ q|urlencode }}&page={{ page_obj.next_page_number }}">Siguiente</a>
+    <a href="?q={{ q|urlencode }}&genero={{ genero|urlencode }}&artista={{ artista|urlencode }}&page={{ page_obj.next_page_number }}">Siguiente</a>
 {% endif %}
 {% endblock %}
