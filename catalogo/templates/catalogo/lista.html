@@ -24,6 +24,7 @@
         <th>Artista</th>
         <th>Duración</th>
         <th>Popularidad</th>
+        <th>Playlist</th>
     </tr>
     {% for c in page_obj %}
     <tr>
@@ -33,10 +34,17 @@
         <td>{{ c.artista }}</td>
         <td>{{ c.duracion }}</td>
         <td>{{ c.popularidad }}</td>
+        <td>
+            {% for playlist in c.playlists.all %}
+                {{ playlist.nombre }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+                Sin playlist
+            {% endfor %}
+        </td>
     </tr>
     {% empty %}
     <tr>
-        <td colspan="4">No hay canciones que coincidan.</td>
+        <td colspan="5">No hay canciones que coincidan.</td>
     </tr>
     {% endfor %}
 </table>
