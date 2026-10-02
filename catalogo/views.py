@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator
 
-from .models import Cancion
+from .models import Cancion, Playlist
 
 
 def lista_canciones(request):
@@ -40,3 +40,11 @@ def detalle_cancion(request, pk):
     cancion = get_object_or_404(Cancion, pk=pk)
 
     return render(request, "catalogo/detalle.html", {"cancion": cancion})
+
+
+def detalle_playlist(request, pk):
+    playlist = get_object_or_404(Playlist, pk=pk)
+
+    canciones = playlist.canciones.all().order_by("-popularidad")
+
+    return render(request, "catalogo/detalle_playlist.html", {"playlist": playlist, "canciones": canciones,})

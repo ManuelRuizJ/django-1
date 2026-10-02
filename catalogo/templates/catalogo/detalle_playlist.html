@@ -1,0 +1,23 @@
+<!-- catalogo/templates/catalogo/detalle_playlist.html -->
+{% extends "catalogo/base.html" %}
+
+{% block titulo %}{{ playlist.nombre }}{% endblock %}
+
+{% block contenido %}
+<h2>{{ playlist.nombre }}</h2>
+<p><strong>Genero:</strong> {{ playlist.genero }}</p>
+<p><strong>Subgénero:</strong> {{ playlist.subgenero }}</p>
+
+<h3>Canciones en esta playlist</h3>
+<ul>
+    {% for cancion in canciones %}
+    <li>
+        <a href="{% url 'catalogo:detalle' pk=cancion.pk %}">
+            {{ cancion.titulo }}
+        </a>
+    </li>
+    {% empty %}
+        <li>Esta playlist no tiene canciones.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

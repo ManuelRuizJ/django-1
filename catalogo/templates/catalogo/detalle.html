@@ -14,7 +14,10 @@
 <h3>Aparece en {{ cancion.playlists.count }} playlist{{ cancion.playlists.count|pluralize }}</h3>
 <ul>
     {% for p in cancion.playlists.all %}
-    <li>{{ p.nombre }} ({{ p.genero }}, {{ p.subgenero }})</li>
+    <li>
+        <a href="{% url 'catalogo:detalle_playlist' pk=p.pk %}">{{ p.nombre }}</a>
+        ({{ p.genero }}, {{ p.subgenero }})
+    </li>
     {% endfor %}
 </ul>
 
