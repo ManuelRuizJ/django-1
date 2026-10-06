@@ -15,15 +15,10 @@ def lista_canciones(request):
     canciones = Cancion.objects.all().prefetch_related("playlists")
 
     if q:
-        canciones = canciones.filter(
-            Q(titulo__icontains=q) |
-            Q(artista__icontains=q)
-        )
+        canciones = canciones.filter(Q(titulo__icontains=q) | Q(artista__icontains=q))
 
     if genero:
-            canciones = canciones.filter(
-                 playlists__genero=genero
-            )
+            canciones = canciones.filter(playlists__genero=genero).distinct()
 
     if artista:
         canciones = canciones.filter(artista__iexact=artista)
